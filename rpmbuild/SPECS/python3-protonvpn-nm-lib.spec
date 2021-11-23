@@ -62,6 +62,7 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %changelog
 * Tue Nov 11 2021 Proton Technologies AG <opensource@proton.me> 3.7.0-6
 - Improve: Handle accounting use cases
+
 * Thu Nov 04 2021 Justin W. Flory <jflory7@fedoraproject.org> - 3.6.1-2
 - Improve: Greater conformity to Fedora Linux Packaging Guidelines for Python
   https://docs.fedoraproject.org/en-US/packaging-guidelines/Python/
