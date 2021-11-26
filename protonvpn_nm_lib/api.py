@@ -27,7 +27,7 @@ class ProtonVPNClientAPI:
             password (string)
             human_verification (optional; list|tuple)
         """
-        self._utils.ensure_connectivity()
+        self._utils.ensure_internet_connection_is_available()
         self._env.api_session.authenticate(username, password, human_verification)
 
     def logout(self):
@@ -82,7 +82,7 @@ class ProtonVPNClientAPI:
             raise exceptions.UserSessionNotFound(
                 "User session was not found, please login first."
             )
-        self._utils.ensure_connectivity()
+        self._utils.ensure_internet_connection_is_available()
 
         (
             _connection_type,
@@ -174,7 +174,8 @@ class ProtonVPNClientAPI:
         try:
             return self._env.api_session.servers.filter(
                 lambda server:
-                    (
+                    server.tier <= ExecutionEnvironment().api_session.vpn_tier
+                    and (
                         secure_core
                         and FeatureEnum.SECURE_CORE in server.features
                     ) or (
@@ -199,7 +200,8 @@ class ProtonVPNClientAPI:
         try:
             return self._env.api_session.servers.filter(
                 lambda server:
-                server.exit_country.lower() == country_code.lower()
+                server.tier <= ExecutionEnvironment().api_session.vpn_tier
+                and server.exit_country.lower() == country_code.lower()
                 and (
                     (
                         secure_core
@@ -240,7 +242,8 @@ class ProtonVPNClientAPI:
         try:
             return self._env.api_session.servers.filter(
                 lambda server: (
-                    all(
+                    server.tier <= ExecutionEnvironment().api_session.vpn_tier
+                    and all(
                         chosen_feature
                         in server.features
                         for chosen_feature
@@ -263,7 +266,9 @@ class ProtonVPNClientAPI:
         """
         try:
             return self._env.api_session.servers.filter(
-                lambda server: server.name.lower() == servername.lower() # noqa
+                lambda server:
+                server.tier <= ExecutionEnvironment().api_session.vpn_tier
+                and server.name.lower() == servername.lower() # noqa
             ).get_fastest_server()
         except exceptions.EmptyServerListError:
             raise exceptions.ServernameServerNotFound(
@@ -396,7 +401,7 @@ class ProtonVPNClientAPI:
         1) It checks if there is internet connection
         2) It checks if API can be reached
         """
-        self._utils.ensure_connectivity()
+        self._utils.ensure_internet_connection_is_available()
 
     def get_bug_report(self):
         """Get bug report object."""
