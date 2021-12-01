@@ -1,74 +1,62 @@
 
 import json
 import os
-import time
 
 from .... import exceptions
-from ....constants import API_METADATA_FILEPATH, API_URL
-from ....enums import MetadataActionEnum, MetadataEnum, APIMetadataEnum, UserSettingStatusEnum
+from ....constants import NETZONE_METADATA_FILEPATH
+from ....enums import MetadataActionEnum, MetadataEnum, NetzoneMetadataEnum
 from ....logger import logger
-from .api_metadata_backend import APIMetadataBackend
-from ...environment import ExecutionEnvironment
+from ._base import NetzoneMetadataBackend
 
 
-class APIMetadata(APIMetadataBackend):
-    """
-    Read/Write API metadata. Stores
-    metadata about the current connection
-    for displaying connection status and also
-    stores for metadata for future reconnections.
-    """
-    api_metadata = "default"
+class DefaultNetzone(NetzoneMetadataBackend):
+    metadata = "default"
+
     METADATA_DICT = {
-        MetadataEnum.API: API_METADATA_FILEPATH
+        MetadataEnum.NETZONE: NETZONE_METADATA_FILEPATH
     }
-    ONE_DAY_IN_SECONDS = 86400
 
-    def save_time_and_url_of_last_original_call(self, url):
-        """Save connected time metadata."""
-        metadata = self.get_connection_metadata(MetadataEnum.API)
-        metadata[APIMetadataEnum.LAST_API_CALL_TIME.value] = str(
-            int(time.time())
-        )
-        metadata[APIMetadataEnum.URL.value] = url
+    def __init__(self):
+        self.__netzone = None
 
-        self.__write_metadata(MetadataEnum.API, metadata)
-        logger.info("Saved last API attempt with original URL")
+    @property
+    def address(self):
+        """Get address from metadata file."""
+        if self.__netzone is None:
+            try:
+                self.__netzone = self.get_metadata(MetadataEnum.NETZONE)[NetzoneMetadataEnum.ADDRESS.value]
+            except KeyError:
+                self.__netzone = ""
 
-    def should_try_original_url(self):
-        """Determine if next api call should use the original URL or not.
+        return self.__netzone
 
-        Check API_URL constant to determine what is original URL.
-        """
-        try:
-            time_since_last_original_api = int(
-                self.get_connection_metadata(MetadataEnum.API)[
-                    APIMetadataEnum.LAST_API_CALL_TIME.value
-                ]
-            )
-        except KeyError:
-            time_since_last_original_api = int(time.time())
+    @address.setter
+    def address(self, address):
+        """Save address to metadata file."""
+        if not address:
+            return
 
-        if (
-            (time_since_last_original_api + self.ONE_DAY_IN_SECONDS) > time.time()
-            and ExecutionEnvironment().settings.alternative_routing == UserSettingStatusEnum.ENABLED
-        ):
-            return False
+        truncated_address = self._truncate_address(address)
 
-        if self.__check_metadata_exists(MetadataEnum.API):
-            self.__remove_metadata_file(MetadataEnum.API, None)
+        metadata = self.get_metadata(MetadataEnum.NETZONE)
+        metadata[NetzoneMetadataEnum.ADDRESS.value] = truncated_address
 
-        return True
+        self.__write_metadata(MetadataEnum.NETZONE, metadata)
+        logger.info("Saved IP to metadata")
+        self.__netzone = truncated_address
 
-    def get_alternative_url(self):
-        """Get alternative URL form metadata file."""
-        try:
-            return self.get_connection_metadata(MetadataEnum.API)[APIMetadataEnum.URL.value]
-        except KeyError:
-            return API_URL
+    def _truncate_address(self, address):
+        if not isinstance(address, str):
+            address = str(address)
 
-    def get_connection_metadata(self, metadata_type):
-        """Get connection state metadata.
+        parts = address.split(".")
+        if len(parts) < 3:
+            return ""
+
+        return "{}.{}.{}.0".format(parts[0], parts[1], parts[2])
+
+    def get_metadata(self, metadata_type):
+        """Get metadata.
 
         Args:
             metadata_type (MetadataEnum): type of metadata to save

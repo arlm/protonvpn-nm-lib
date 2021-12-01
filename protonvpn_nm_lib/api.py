@@ -5,7 +5,7 @@ from .core.status import Status
 from .core.utilities import Utilities
 from .core.report import BugReport
 from .enums import (ConnectionMetadataEnum, ConnectionTypeEnum, FeatureEnum,
-                    MetadataEnum, ServerTierEnum)
+                    MetadataEnum, ServerTierEnum, KillswitchStatusEnum)
 from .logger import logger
 
 
@@ -29,6 +29,7 @@ class ProtonVPNClientAPI:
         """
         self._utils.ensure_internet_connection_is_available()
         self._env.api_session.authenticate(username, password, human_verification)
+        self._env.netzone.address = self._env.api_session.get_location_data().ip
 
     def logout(self):
         """Logout user and delete current user session."""
@@ -51,6 +52,8 @@ class ProtonVPNClientAPI:
     def disconnect(self):
         """Disconnect from ProtonVPN"""
         self._env.connection_backend.disconnect()
+        if self._env.settings.killswitch != KillswitchStatusEnum.HARD:
+            self._env.netzone.address = self._env.api_session.get_location_data().ip
 
     def setup_connection(
         self,
@@ -95,6 +98,10 @@ class ProtonVPNClientAPI:
                 "protocol": protocol,
             }
         )
+
+        if self._env.settings.killswitch != KillswitchStatusEnum.HARD:
+            self._env.netzone.address = self._env.api_session.get_location_data().ip
+
         connect_configurations = {
             ConnectionTypeEnum.FREE: self.config_for_fastest_free_server,
             ConnectionTypeEnum.SERVERNAME:

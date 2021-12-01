@@ -1,4 +1,4 @@
 from .connection import ConnectionMetadataBackend
-from .api import APIMetadataBackend
+from .netzone import NetzoneMetadataBackend
 
-__all__ = ["ConnectionMetadataBackend", "APIMetadataBackend"]
+__all__ = ["ConnectionMetadataBackend", "NetzoneMetadataBackend"]

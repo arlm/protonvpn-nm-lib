@@ -2,7 +2,7 @@ import os
 import random
 import time
 
-from ...constants import (API_METADATA_FILEPATH, API_URL, APP_VERSION,
+from ...constants import (API_URL, APP_VERSION, NETZONE_METADATA_FILEPATH,
                           CACHED_SERVERLIST, CLIENT_CONFIG,
                           CONNECTION_STATE_FILEPATH,
                           LAST_CONNECTION_METADATA_FILEPATH,
@@ -342,7 +342,7 @@ class APISession:
 
         logger.info("Remove cache files")
         filepaths_to_remove = [
-            CACHED_SERVERLIST, CLIENT_CONFIG, API_METADATA_FILEPATH,
+            CACHED_SERVERLIST, CLIENT_CONFIG, NETZONE_METADATA_FILEPATH,
             LAST_CONNECTION_METADATA_FILEPATH, CONNECTION_STATE_FILEPATH,
             STREAMING_ICONS_CACHE_TIME_PATH, STREAMING_SERVICES,
             PROTON_XDG_CACHE_HOME_STREAMING_ICONS, NOTIFICATIONS_FILE_PATH,
@@ -559,12 +559,19 @@ class APISession:
         if not self.__ensure_that_api_can_be_reached():
             return
 
+        additional_headers = None
+        if ExecutionEnvironment().netzone.address:
+            additional_headers = {"X-PM-netzone": ExecutionEnvironment().netzone.address}
+
         if self.__next_fetch_logicals < time.time() or force:
             # Update logicals
             logger.info("Fetching logicals")
             self.__ensure_that_alt_routing_can_be_skipped()
             self.__vpn_logicals.update_logical_data(
-                self.__proton_api.api_request(APIEndpointEnum.LOGICALS.value)
+                self.__proton_api.api_request(
+                    APIEndpointEnum.LOGICALS.value,
+                    additional_headers=additional_headers
+                )
             )
             changed = True
         elif self.__next_fetch_load < time.time():
@@ -572,7 +579,10 @@ class APISession:
             logger.info("Fetching loads")
             self.__ensure_that_alt_routing_can_be_skipped()
             self.__vpn_logicals.update_load_data(
-                self.__proton_api.api_request(APIEndpointEnum.LOADS.value)
+                self.__proton_api.api_request(
+                    APIEndpointEnum.LOADS.value,
+                    additional_headers=additional_headers
+                )
             )
             changed = True
 

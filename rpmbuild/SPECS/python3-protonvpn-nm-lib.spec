@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
-%define version 3.7.0
-%define release 6
+%define version 3.8.0
+%define release 1
 
 Prefix: %{_prefix}
 
@@ -60,7 +60,10 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Tue Nov 11 2021 Proton Technologies AG <opensource@proton.me> 3.7.0-6
+* Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-1
+- Improve: Server list
+
+* Thu Nov 11 2021 Proton Technologies AG <opensource@proton.me> 3.7.0-6
 - Improve: Handle accounting use cases
 
 * Thu Nov 04 2021 Justin W. Flory <jflory7@fedoraproject.org> - 3.6.1-2

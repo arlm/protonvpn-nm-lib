@@ -83,9 +83,8 @@ class LastConnectionMetadataEnum(Enum):
     DISPLAY_SERVER_IP = ConnectionMetadataEnum.DISPLAY_SERVER_IP.value
 
 
-class APIMetadataEnum(Enum):
-    LAST_API_CALL_TIME = "last_api_call_time"
-    URL = "url"
+class NetzoneMetadataEnum(Enum):
+    ADDRESS = "address"
 
 
 class ClientSuffixEnum(Enum):
@@ -166,7 +165,7 @@ class MetadataEnum(Enum):
     CONNECTION = "connection_metadata"
     LAST_CONNECTION = "last_connection_metadata"
     SERVER_CACHE = "cache_metadata"
-    API = "api"
+    NETZONE = "netzone"
 
 
 class ConnectionTypeEnum(Enum):

@@ -22,6 +22,7 @@ class ExecutionEnvironment(metaclass=Singleton):
         self.__connection_metadata = None
         self.__api_metadata = None
         self.__accounting = None
+        self.__netzone = None
 
     @property
     def keyring(self):
@@ -108,16 +109,16 @@ class ExecutionEnvironment(metaclass=Singleton):
         self.__connection_metadata = newvalue
 
     @property
-    def api_metadata(self):
+    def netzone(self):
         """Return the session to the API"""
-        if self.__api_metadata is None:
-            from .metadata import APIMetadataBackend
-            self.__api_metadata = APIMetadataBackend.get_backend() # noqa
-        return self.__api_metadata
+        if self.__netzone is None:
+            from .metadata import NetzoneMetadataBackend
+            self.__netzone = NetzoneMetadataBackend.get_backend() # noqa
+        return self.__netzone
 
-    @api_metadata.setter
-    def api_metadata(self, newvalue):
-        self.__api_metadata = newvalue
+    @netzone.setter
+    def netzone(self, newvalue):
+        self.__netzone = newvalue
 
     @property
     def accounting(self):
@@ -130,6 +131,7 @@ class ExecutionEnvironment(metaclass=Singleton):
     @accounting.setter
     def accounting(self, newvalue):
         self.__accounting = newvalue
+
 
     @property
     def user_agent(self):
