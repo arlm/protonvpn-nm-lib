@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
 %define version 3.8.0
-%define release 1
+%define release 2
 
 Prefix: %{_prefix}
 
@@ -60,8 +60,9 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-1
+* Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-2
 - Improve: Server list
+- Improve: Rename exception
 
 * Thu Nov 11 2021 Proton Technologies AG <opensource@proton.me> 3.7.0-6
 - Improve: Handle accounting use cases

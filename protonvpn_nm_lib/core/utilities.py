@@ -61,8 +61,8 @@ class Utilities:
         re_compile = re.compile(r"^(\w\w)(-\w+)?#(\w+-)?(\w+)$")
 
         if not re_compile.search(servername):
-            raise Exception(
-                "IllegalServername: Invalid servername {}".format(
+            raise exceptions.UnexpectedServername(
+                "Unexpected servername {}".format(
                     servername
                 )
             )

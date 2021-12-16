@@ -302,7 +302,7 @@ class ConnectionNotFound(ProtonVPNException):
     """ProtonVPN connection not found."""
 
 
-class IllegalServername(ProtonVPNException):
+class UnexpectedServername(ProtonVPNException):
     """Unexpected servername."""
 
 
