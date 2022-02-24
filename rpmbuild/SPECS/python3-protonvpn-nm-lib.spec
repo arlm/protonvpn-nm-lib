@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
 %define version 3.8.0
-%define release 4
+%define release 5
 
 Prefix: %{_prefix}
 
@@ -60,10 +60,10 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-4
+* Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-5
 - Improve: Server list
 - Improve: Rename exception
-- Feature: Moderate NAT
+- Feature: Moderate NAT, Non Standard Ports
 
 * Thu Nov 11 2021 Proton Technologies AG <opensource@proton.me> 3.7.0-6
 - Improve: Handle accounting use cases

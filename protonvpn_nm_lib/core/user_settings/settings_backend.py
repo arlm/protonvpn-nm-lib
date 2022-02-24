@@ -131,6 +131,18 @@ class SettingsBackend(SubclassesMixin, metaclass=ABCMeta):
         """Set moderate NAT."""
         pass
 
+    @property
+    @abstractmethod
+    def non_standard_ports():
+        """Get moderate NAT setting."""
+        pass
+
+    @non_standard_ports.setter
+    @abstractmethod
+    def non_standard_ports():
+        """Set moderate NAT."""
+        pass
+
     @abstractmethod
     def reset_to_default_configs():
         """Reset user configuration to default values."""

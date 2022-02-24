@@ -68,6 +68,7 @@ class ClientFeatureConfig:
         self.__streaming_logos = data.get("StreamingServicesLogos")
         self.__port_forwarding = data.get("PortForwarding")
         self.__moderate_nat = data.get("ModerateNAT")
+        self.__safe_mode = data.get("SafeMode")
         self.__poll_notification_api = data.get("PollNotificationAPI")
         self.__vpn_accelerator = data.get("VpnAccelerator")
 
@@ -94,6 +95,10 @@ class ClientFeatureConfig:
     @property
     def moderate_nat(self):
         return True if self.__moderate_nat else False
+
+    @property
+    def safe_mode(self):
+        return True if self.__safe_mode else False
 
     @property
     def poll_notification_api(self):

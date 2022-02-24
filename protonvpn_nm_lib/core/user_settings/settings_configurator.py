@@ -98,7 +98,7 @@ class SettingsConfigurator:
         try:
             return user_configs[UserSettingConnectionEnum.EVENT_NOTIFICATION]
         except KeyError:
-            return User.UNKNOWN
+            return NotificationStatusEnum.UNKNOWN
 
     def get_moderate_nat(self):
         """Moderate NAT get method."""
@@ -107,6 +107,14 @@ class SettingsConfigurator:
             return user_configs[UserSettingConnectionEnum.MODERATE_NAT]
         except KeyError:
             return USER_CONFIG_TEMPLATE[UserSettingConnectionEnum.MODERATE_NAT]
+
+    def get_non_standard_ports(self):
+        """Moderate NAT get method."""
+        user_configs = self.get_user_configurations()
+        try:
+            return user_configs[UserSettingConnectionEnum.NON_STANDARD_PORTS]
+        except KeyError:
+            return USER_CONFIG_TEMPLATE[UserSettingConnectionEnum.NON_STANDARD_PORTS]
 
     def set_protocol(self, protocol):
         """Set default protocol method.
@@ -254,6 +262,19 @@ class SettingsConfigurator:
 
         user_configs = self.get_user_configurations()
         user_configs[UserSettingConnectionEnum.MODERATE_NAT] = status
+        self.set_user_configurations(user_configs)
+
+    def set_non_standard_ports(self, status):
+        """Set event notification setting method.
+
+        Args:
+            status (UserSettingStatusEnum)
+        """
+        if status not in CONFIG_STATUSES:
+            raise KeyError("Illegal option")
+
+        user_configs = self.get_user_configurations()
+        user_configs[UserSettingConnectionEnum.NON_STANDARD_PORTS] = status
         self.set_user_configurations(user_configs)
 
     def reset_default_configs(self):
