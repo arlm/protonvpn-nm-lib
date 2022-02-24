@@ -88,6 +88,13 @@ class ConfigureOpenVPNConnection:
         ):
             self.username = self.username + "+nr"
 
+        # append non standard ports (aka safe mode) suffix
+        if self.__env.api_session.clientconfig.features.safe_mode:
+            if self.__env.settings.non_standard_ports == UserSettingStatusEnum.DISABLED:
+                self.username = self.username + "+nsm"
+            else:
+                self.username = self.username + "+sm"
+
     def add_vpn_credentials(self):
         """Add OpenVPN credentials to ProtonVPN connection.
 

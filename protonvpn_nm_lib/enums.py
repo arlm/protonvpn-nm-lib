@@ -146,6 +146,7 @@ class UserSettingConnectionEnum(Enum):
     ALTERNATIVE_ROUTING = "alternative_routing"
     EVENT_NOTIFICATION = "event_notification"
     MODERATE_NAT = "moderate_nat"
+    NON_STANDARD_PORTS = "non_standard_ports"
 
 
 class ProtonSessionAPIMethodEnum(Enum):
@@ -203,6 +204,7 @@ class DisplayUserSettingsEnum(Enum):
     VPN_ACCELERATOR = 5
     ALT_ROUTING = 6
     MODERATE_NAT = 7
+    NON_STANDARD_PORTS = 8
 
 
 class KillSwitchInterfaceTrackerEnum(Enum):

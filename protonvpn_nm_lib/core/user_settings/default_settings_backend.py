@@ -309,15 +309,48 @@ class Settings(SettingsBackend):
             raise Exception("Invalid setting status \"{}\"".format(
                 newvalue
             ))
-        elif (ExecutionEnvironment().api_session.vpn_tier == ServerTierEnum.FREE.value):
+        elif ExecutionEnvironment().api_session.vpn_tier == ServerTierEnum.FREE.value:
             raise Exception(
                 "\nTo switch Moderate NAT, please upgrade your subscription at: "
                 "https://account.protonvpn.com/dashboard"
+                "\nFor more information see: "
+                "https://protonvpn.com/support/moderate-nat"
             )
 
-        print(ExecutionEnvironment().api_session.vpn_tier)
-
         self.settings_configurator.set_moderate_nat(newvalue)
+
+    @property
+    def non_standard_ports(self):
+        """Get non standard ports setting.
+
+        Returns:
+            UserSettingStatusEnum
+        """
+        return self.settings_configurator.get_non_standard_ports()
+
+    @non_standard_ports.setter
+    def non_standard_ports(self, newvalue):
+        """Set non standard ports.
+
+        Args:
+            newvalue (UserSettingStatusEnum)
+        """
+        if not ExecutionEnvironment().api_session.clientconfig.features.safe_mode:
+            raise Exception("\nThis feature is currently not supported.")
+
+        if not isinstance(newvalue, UserSettingStatusEnum):
+            raise Exception("Invalid setting status \"{}\"".format(
+                newvalue
+            ))
+        elif ExecutionEnvironment().api_session.vpn_tier == ServerTierEnum.FREE.value:
+            raise Exception(
+                "\nTo switch non standard ports, please upgrade your subscription at: "
+                "https://account.protonvpn.com/dashboard"
+                "\nFor more information see: "
+                "https://protonvpn.com/support/non-standard-ports"
+            )
+
+        self.settings_configurator.set_non_standard_ports(newvalue)
 
     def reset_to_default_configs(self):
         """Reset user configuration to default values."""
@@ -352,8 +385,8 @@ class Settings(SettingsBackend):
             DisplayUserSettingsEnum.NETSHIELD: self.netshield,
             DisplayUserSettingsEnum.VPN_ACCELERATOR: self.vpn_accelerator,
             DisplayUserSettingsEnum.ALT_ROUTING: self.alternative_routing,
-            DisplayUserSettingsEnum.ALT_ROUTING: self.alternative_routing,
             DisplayUserSettingsEnum.MODERATE_NAT: self.moderate_nat,
+            DisplayUserSettingsEnum.NON_STANDARD_PORTS: self.non_standard_ports,
         }
 
         return settings_dict
