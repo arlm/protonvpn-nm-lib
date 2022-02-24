@@ -119,6 +119,18 @@ class SettingsBackend(SubclassesMixin, metaclass=ABCMeta):
         """Set event notification."""
         pass
 
+    @property
+    @abstractmethod
+    def moderate_nat():
+        """Get moderate NAT setting."""
+        pass
+
+    @moderate_nat.setter
+    @abstractmethod
+    def moderate_nat():
+        """Set moderate NAT."""
+        pass
+
     @abstractmethod
     def reset_to_default_configs():
         """Reset user configuration to default values."""
