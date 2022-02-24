@@ -66,7 +66,7 @@ class Settings(SettingsBackend):
             not netshield_enum
             and (
                 ExecutionEnvironment().api_session.vpn_tier
-                == ServerTierEnum.FREE
+                == ServerTierEnum.FREE.value
             )
         ):
             raise Exception(
@@ -286,6 +286,39 @@ class Settings(SettingsBackend):
         """
         self.settings_configurator.set_event_notification(newvalue)
 
+    @property
+    def moderate_nat(self):
+        """Get moderate NAT setting.
+
+        Returns:
+            UserSettingStatusEnum
+        """
+        return self.settings_configurator.get_moderate_nat()
+
+    @moderate_nat.setter
+    def moderate_nat(self, newvalue):
+        """Set moderate NAT.
+
+        Args:
+            newvalue (UserSettingStatusEnum)
+        """
+        if not ExecutionEnvironment().api_session.clientconfig.features.moderate_nat:
+            raise Exception("\nThis feature is currently not supported.")
+
+        if not isinstance(newvalue, UserSettingStatusEnum):
+            raise Exception("Invalid setting status \"{}\"".format(
+                newvalue
+            ))
+        elif (ExecutionEnvironment().api_session.vpn_tier == ServerTierEnum.FREE.value):
+            raise Exception(
+                "\nTo switch Moderate NAT, please upgrade your subscription at: "
+                "https://account.protonvpn.com/dashboard"
+            )
+
+        print(ExecutionEnvironment().api_session.vpn_tier)
+
+        self.settings_configurator.set_moderate_nat(newvalue)
+
     def reset_to_default_configs(self):
         """Reset user configuration to default values."""
         # should it disconnect prior to resetting user configurations ?
@@ -319,6 +352,8 @@ class Settings(SettingsBackend):
             DisplayUserSettingsEnum.NETSHIELD: self.netshield,
             DisplayUserSettingsEnum.VPN_ACCELERATOR: self.vpn_accelerator,
             DisplayUserSettingsEnum.ALT_ROUTING: self.alternative_routing,
+            DisplayUserSettingsEnum.ALT_ROUTING: self.alternative_routing,
+            DisplayUserSettingsEnum.MODERATE_NAT: self.moderate_nat,
         }
 
         return settings_dict

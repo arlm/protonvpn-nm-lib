@@ -81,6 +81,13 @@ class ConfigureOpenVPNConnection:
         ):
             self.username = self.username + "+nst"
 
+        # append moderate NAT suffix
+        if (
+            self.__env.api_session.clientconfig.features.moderate_nat
+            and self.__env.settings.moderate_nat == UserSettingStatusEnum.ENABLED
+        ):
+            self.username = self.username + "+nr"
+
     def add_vpn_credentials(self):
         """Add OpenVPN credentials to ProtonVPN connection.
 

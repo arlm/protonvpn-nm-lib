@@ -74,7 +74,8 @@ USER_CONFIG_TEMPLATE = {
     UserSettingConnectionEnum.SECURE_CORE: SecureCoreStatusEnum.OFF,
     UserSettingConnectionEnum.VPN_ACCELERATOR: UserSettingStatusEnum.ENABLED,
     UserSettingConnectionEnum.ALTERNATIVE_ROUTING: UserSettingStatusEnum.ENABLED,
-    UserSettingConnectionEnum.EVENT_NOTIFICATION: NotificationStatusEnum.UNKNOWN
+    UserSettingConnectionEnum.EVENT_NOTIFICATION: NotificationStatusEnum.UNKNOWN,
+    UserSettingConnectionEnum.MODERATE_NAT: UserSettingStatusEnum.DISABLED
 }
 NETSHIELD_STATUS_DICT = {
     NetshieldTranslationEnum.DISABLED: NetshieldStatusEnum.DISABLED,
