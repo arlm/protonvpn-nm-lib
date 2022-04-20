@@ -1,3 +1,9 @@
+protonvpn-nm-lib (3.9.0-1) unstable; urgency=medium
+
+  * Fix: Crash when attempting to fetch netzone
+
+ -- Proton Technologies AG <opensource@proton.me>  Wed, 20 Apr 2022 13:00:00 +0000
+ 
 protonvpn-nm-lib (3.8.0-5) unstable; urgency=medium
 
   * Improve: Server list

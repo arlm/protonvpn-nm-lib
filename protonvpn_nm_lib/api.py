@@ -18,6 +18,11 @@ class ProtonVPNClientAPI:
         self._utils = Utilities
         self._bug_report = BugReport()
 
+    def __set_netzone_address(self):
+        new_ip = self._env.api_session.get_location_data().ip
+        if new_ip:
+            self._env.netzone.address = new_ip
+
     def login(self, username, password, human_verification=None):
         """Login user with provided username and password.
         If login is unsuccessful, an exception will be thrown.
@@ -29,7 +34,7 @@ class ProtonVPNClientAPI:
         """
         self._utils.ensure_internet_connection_is_available()
         self._env.api_session.authenticate(username, password, human_verification)
-        self._env.netzone.address = self._env.api_session.get_location_data().ip
+        self.__set_netzone_address()
 
     def logout(self):
         """Logout user and delete current user session."""
@@ -53,7 +58,7 @@ class ProtonVPNClientAPI:
         """Disconnect from ProtonVPN"""
         self._env.connection_backend.disconnect()
         if self._env.settings.killswitch != KillswitchStatusEnum.HARD:
-            self._env.netzone.address = self._env.api_session.get_location_data().ip
+            self.__set_netzone_address()
 
     def setup_connection(
         self,
@@ -100,7 +105,7 @@ class ProtonVPNClientAPI:
         )
 
         if self._env.settings.killswitch != KillswitchStatusEnum.HARD:
-            self._env.netzone.address = self._env.api_session.get_location_data().ip
+            self.__set_netzone_address()
 
         connect_configurations = {
             ConnectionTypeEnum.FREE: self.config_for_fastest_free_server,

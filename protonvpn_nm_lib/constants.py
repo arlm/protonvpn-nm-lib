@@ -13,7 +13,7 @@ from .enums import (KillswitchStatusEnum, NetshieldStatusEnum,
                     SecureCoreStatusEnum, UserSettingConnectionEnum,
                     UserSettingStatusEnum)
 
-APP_VERSION = "3.8.0"
+APP_VERSION = "3.9.0"
 API_URL = "https://api.protonvpn.ch"
 
 IPv6_LEAK_PROTECTION_CONN_NAME = "pvpn-ipv6leak-protection"
