@@ -201,6 +201,7 @@ class APISession:
     NOTIFICATIONS_TIME_EXPIRE = 12 * (60 * 60)   # 12h in seconds
     LOADS_CACHE_TIME_EXPIRE = 15 * 60  # 15min in seconds
     RANDOM_FRACTION = 0.22  # Generate a value of the timeout, +/- up to 22%, at random
+    TIMEOUT = (3.05, 3.05)
 
     def __init__(self, api_url=None, enforce_pinning=True):
         if api_url is None:
@@ -236,6 +237,7 @@ class APISession:
             appversion="LinuxVPN_" + APP_VERSION,
             user_agent=ExecutionEnvironment().user_agent,
             tls_pinning=self._enforce_pinning,
+            timeout=self.TIMEOUT
         )
         self.__proton_api.enable_alternative_routing = ExecutionEnvironment()\
             .settings.alternative_routing.value
@@ -286,7 +288,8 @@ class APISession:
             keyring_data,
             log_dir_path=PROTON_XDG_CACHE_HOME_LOGS,
             cache_dir_path=PROTON_XDG_CACHE_HOME,
-            tls_pinning=self._enforce_pinning
+            tls_pinning=self._enforce_pinning,
+            timeout=self.TIMEOUT
         )
         self.__proton_api.enable_alternative_routing = ExecutionEnvironment()\
             .settings.alternative_routing.value
@@ -560,8 +563,9 @@ class APISession:
             return
 
         additional_headers = None
-        if ExecutionEnvironment().netzone.address:
-            additional_headers = {"X-PM-netzone": ExecutionEnvironment().netzone.address}
+        netzone_address = ExecutionEnvironment().netzone.address
+        if netzone_address:
+            additional_headers = {"X-PM-netzone": netzone_address}
 
         if self.__next_fetch_logicals < time.time() or force:
             # Update logicals
@@ -867,7 +871,15 @@ class APISession:
     @ErrorStrategyNormalCall
     def get_location_data(self):
         self.__ensure_that_alt_routing_can_be_skipped()
-        response = self.__proton_api.api_request(APIEndpointEnum.LOCATION.value)
+        try:
+            response = self.__proton_api.api_request(APIEndpointEnum.LOCATION.value)
+        except (APITimeoutError, UnreacheableAPIError, UnknownAPIError) as e:
+            logger.info("Unable to fetch new ip: {}".format(e))
+            response = {}
+        except: # noqa
+            logger.info("Unknown error occured. Either there is no connection or API is blocked.")
+            response = {}
+
         from ..location import CurrentLocation
         return CurrentLocation(response)
 
