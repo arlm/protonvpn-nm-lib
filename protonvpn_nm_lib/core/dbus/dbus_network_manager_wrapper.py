@@ -53,9 +53,17 @@ class NetworkManagerUnitWrapper:
                 )
                 iterated_connection = conn_props["Connection"]
 
-            all_connection_properties = self.get_settings_from_connection(
-                iterated_connection
-            )
+            try:
+                all_connection_properties = self.get_settings_from_connection(
+                    iterated_connection
+                )
+            except dbus_excp.DBusException as e:
+                logger.info(
+                    "Couldn't get settings from connection {}: {}".format(
+                        iterated_connection, e
+                    )
+                )
+                continue
 
             connection_id = str(all_connection_properties["connection"]["id"])
 
@@ -214,9 +222,13 @@ class NetworkManagerUnitWrapper:
                 active_conn_props["State"] == 2
             ):
                 active_conn_all_settings[0] = True
-                active_conn_all_settings[1] = self.get_settings_from_connection(
-                    active_conn_props["Connection"]
-                )
+                try:
+                    active_conn_all_settings[1] = self.get_settings_from_connection(
+                        active_conn_props["Connection"]
+                    )
+                except dbus_excp.DBusException:
+                    active_conn_all_settings[1] = None
+
         return active_conn_all_settings
 
     def is_protonvpn_being_prepared(self):
@@ -233,9 +245,19 @@ class NetworkManagerUnitWrapper:
         protonvpn_conn_info = [False, None, None]
         for active_conn in all_active_conns:
             active_conn_props = self.get_active_connection_properties(active_conn)
-            vpn_all_settings = self.get_settings_from_connection(
-                active_conn_props["Connection"]
-            )
+
+            try:
+                vpn_all_settings = self.get_settings_from_connection(
+                    active_conn_props["Connection"]
+                )
+            except dbus_excp.DBusException as e:
+                logger.info(
+                    "Couldn't get settings from connection {}: {}".format(
+                        active_conn, e
+                    )
+                )
+                continue
+
             if (
                 active_conn_props["Type"] == "vpn"
             ) and (
