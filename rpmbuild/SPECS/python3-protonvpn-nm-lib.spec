@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
 %define version 3.9.0
-%define release 1
+%define release 2
 
 Prefix: %{_prefix}
 
@@ -60,8 +60,9 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Wed Apr 20 2021 Proton Technologies AG <opensource@proton.me> 3.9.0-1
+* Wed Apr 20 2021 Proton Technologies AG <opensource@proton.me> 3.9.0-2
 - Fix: Crash when attempting to fetch netzone
+- Fix: "1000:Permission Denied" error when killswitch is enabled
 
 * Tue Nov 30 2021 Proton Technologies AG <opensource@proton.me> 3.8.0-5
 - Improve: Server list
