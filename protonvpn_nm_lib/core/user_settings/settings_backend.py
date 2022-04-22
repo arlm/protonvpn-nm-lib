@@ -121,6 +121,18 @@ class SettingsBackend(SubclassesMixin, metaclass=ABCMeta):
 
     @property
     @abstractmethod
+    def new_brand():
+        """Get new brand setting."""
+        pass
+
+    @new_brand.setter
+    @abstractmethod
+    def new_brand():
+        """Set new brand notification."""
+        pass
+
+    @property
+    @abstractmethod
     def moderate_nat():
         """Get moderate NAT setting."""
         pass

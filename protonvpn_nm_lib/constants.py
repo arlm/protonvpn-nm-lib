@@ -13,7 +13,7 @@ from .enums import (KillswitchStatusEnum, NetshieldStatusEnum,
                     SecureCoreStatusEnum, UserSettingConnectionEnum,
                     UserSettingStatusEnum)
 
-APP_VERSION = "3.9.0"
+APP_VERSION = "3.10.0"
 API_URL = "https://api.protonvpn.ch"
 
 IPv6_LEAK_PROTECTION_CONN_NAME = "pvpn-ipv6leak-protection"
@@ -76,7 +76,8 @@ USER_CONFIG_TEMPLATE = {
     UserSettingConnectionEnum.ALTERNATIVE_ROUTING: UserSettingStatusEnum.ENABLED,
     UserSettingConnectionEnum.EVENT_NOTIFICATION: NotificationStatusEnum.UNKNOWN,
     UserSettingConnectionEnum.MODERATE_NAT: UserSettingStatusEnum.DISABLED,
-    UserSettingConnectionEnum.NON_STANDARD_PORTS: UserSettingStatusEnum.DISABLED
+    UserSettingConnectionEnum.NEW_BRAND_INFO: NotificationStatusEnum.NOT_OPENED,
+    UserSettingConnectionEnum.NON_STANDARD_PORTS: UserSettingStatusEnum.DISABLED,
 }
 NETSHIELD_STATUS_DICT = {
     NetshieldTranslationEnum.DISABLED: NetshieldStatusEnum.DISABLED,

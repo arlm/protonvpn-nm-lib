@@ -100,6 +100,13 @@ class SettingsConfigurator:
         except KeyError:
             return NotificationStatusEnum.UNKNOWN
 
+    def get_new_brand_notification(self):
+        user_configs = self.get_user_configurations()
+        try:
+            return user_configs[UserSettingConnectionEnum.NEW_BRAND_INFO]
+        except KeyError:
+            return NotificationStatusEnum.NOT_OPENED
+
     def get_moderate_nat(self):
         """Moderate NAT get method."""
         user_configs = self.get_user_configurations()
@@ -249,6 +256,14 @@ class SettingsConfigurator:
 
         user_configs = self.get_user_configurations()
         user_configs[UserSettingConnectionEnum.EVENT_NOTIFICATION] = status
+        self.set_user_configurations(user_configs)
+
+    def set_new_brand_notification(self, status):
+        if status not in CONFIG_STATUSES:
+            raise KeyError("Illegal option")
+
+        user_configs = self.get_user_configurations()
+        user_configs[UserSettingConnectionEnum.NEW_BRAND_INFO] = status
         self.set_user_configurations(user_configs)
 
     def set_moderate_nat(self, status):

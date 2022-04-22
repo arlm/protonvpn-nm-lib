@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
-%define version 3.9.0
-%define release 2
+%define version 3.10.0
+%define release 1
 
 Prefix: %{_prefix}
 
@@ -36,7 +36,7 @@ Requires: python3-dbus
 Requires: python3-systemd
 Requires: python3-gobject
 Requires: xdg-utils
-Conflicts: protonvpn-cli < 3.11.0, protonvpn-cli < 1.7.0
+Conflicts: protonvpn-cli < 3.11.0, protonvpn-cli < 1.9.0
 
 %{?python_disable_dependency_generator}
 
@@ -60,6 +60,9 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
+* Fri Apr 22 2021 Proton Technologies AG <opensource@proton.me> 3.10.0-1
+- * Fix: Adapt to new rebranded client
+
 * Wed Apr 20 2021 Proton Technologies AG <opensource@proton.me> 3.9.0-2
 - Fix: Crash when attempting to fetch netzone
 - Fix: "1000:Permission Denied" error when killswitch is enabled

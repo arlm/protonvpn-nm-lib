@@ -287,6 +287,14 @@ class Settings(SettingsBackend):
         self.settings_configurator.set_event_notification(newvalue)
 
     @property
+    def new_brand(self):
+        return self.settings_configurator.get_new_brand_notification()
+
+    @new_brand.setter
+    def new_brand(self, newvalue):
+        self.settings_configurator.set_new_brand_notification(newvalue)
+
+    @property
     def moderate_nat(self):
         """Get moderate NAT setting.
 
