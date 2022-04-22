@@ -147,6 +147,7 @@ class UserSettingConnectionEnum(Enum):
     EVENT_NOTIFICATION = "event_notification"
     MODERATE_NAT = "moderate_nat"
     NON_STANDARD_PORTS = "non_standard_ports"
+    NEW_BRAND_INFO = "new_brand_info"
 
 
 class ProtonSessionAPIMethodEnum(Enum):
