@@ -15,7 +15,7 @@ You can download the latest stable release, either from our official repositorie
 
 | **Distro**                              | **Command**                                                                                                     |
 |:----------------------------------------|:----------------------------------------------------------------------------------------------------------------|
-|Fedora/CentOS/RHEL                       | `sudo dnf install -y NetworkManager NetworkManager-openvpn NetworkManager-openvpn-gnome openvpn python3-pyxdg python3-keyring python3-jinja2 python3-distro python3-gobject libsecret-devel dbus-x11 gnome-keyring` |
+|Fedora/RHEL                       | `sudo dnf install -y NetworkManager NetworkManager-openvpn NetworkManager-openvpn-gnome openvpn python3-pyxdg python3-keyring python3-jinja2 python3-distro python3-gobject libsecret-devel dbus-x11 gnome-keyring` |
 |Ubuntu/Linux Mint/Debian and derivatives | `sudo apt install -y network-manager network-manager-openvpn openvpn python3-xdg python3-keyring python3-jinja2 python3-distro gir1.2-nm-1.0 libsecret-tools dbus-x11 gnome-keyring network-manager-openvpn-gnome` |
 |Arch Linux/Manjaro                       | `sudo pacman -S networkmanager networkmanager-openvpn openvpn python-pyxdg python-keyring python-jinja python-distro dbus-x11 gnome-keyring` |
 
@@ -27,7 +27,7 @@ If you would like to run the the CLI from within a virtual environment (for eith
 
 | **Distro**                              | **Command**                                                                                                     |
 |:----------------------------------------|:----------------------------------------------------------------------------------------------------------------|
-|Fedora/CentOS/RHEL                       | `sudo dnf install pkgconf-pkg-config networkmanager networkmanager-openvpn openvpn cairo-devel cairo-gobject-devel libsecret-devel gobject-introspection-devel dbus-x11 gnome-keyring` |
+|Fedora/RHEL                       | `sudo dnf install pkgconf-pkg-config networkmanager networkmanager-openvpn openvpn cairo-devel cairo-gobject-devel libsecret-devel gobject-introspection-devel dbus-x11 gnome-keyring` |
 |Ubuntu/Linux Mint/Debian and derivatives | `sudo apt install -y pkg-config network-manager network-manager-openvpn openvpn libcairo2-dev libgirepository1.0-dev gir1.2-nm-1.0 dbus-x11 libsecret-tools gnome-keyring` |
 |Arch Linux/Manjaro                       | `sudo pacman -S pkgconf networkmanager networkmanager-openvpn openvpn cairo base-devel gobject-introspection pkgconf dbus-x11 libsecret gnome-keyring gtk3` |
 
