@@ -48,7 +48,7 @@ class MonitorVPNConnectionStart:
         logger.info("State: {} - Reason: {}".format(state, reason))
 
         if state == VPNConnectionStateEnum.IS_ACTIVE:
-            msg = "Successfully connected to ProtonVPN."
+            msg = "Successfully connected to Proton VPN."
 
             if env.settings.killswitch == KillswitchStatusEnum.HARD: # noqa
                 env.killswitch.manage(
@@ -69,14 +69,14 @@ class MonitorVPNConnectionStart:
             except: # noqa
                 # Just skip if servers could not be updated
                 pass
-            logger.info("Quitting loop on active ProtonVPN connection")
+            logger.info("Quitting loop on active Proton VPN connection")
             self.loop.quit()
         elif state in [
             VPNConnectionStateEnum.FAILED,
             VPNConnectionStateEnum.DISCONNECTED
         ]:
 
-            msg = "ProtonVPN connection failed due to "
+            msg = "Proton VPN connection failed due to "
             reason = VPNConnectionReasonEnum.UNKNOWN_ERROR
             if state == VPNConnectionStateEnum.FAILED:
                 if (
@@ -95,7 +95,7 @@ class MonitorVPNConnectionStart:
                 msg = msg + "unknown reasons."
 
             if state == VPNConnectionStateEnum.DISCONNECTED:
-                msg = "ProtonVPN connection has been disconnected. "\
+                msg = "Proton VPN connection has been disconnected. "\
                     "Reason: {}".format(reason)
 
             logger.error("State: {} ; Reason{} ; Message: {}".format(
@@ -104,14 +104,14 @@ class MonitorVPNConnectionStart:
             self.dbus_response[ConnectionStartStatusEnum.STATE] = state
             self.dbus_response[ConnectionStartStatusEnum.MESSAGE] = msg
             self.dbus_response[ConnectionStartStatusEnum.REASON] = reason
-            logger.info("Quitting loop on failed ProtonVPN connection")
+            logger.info("Quitting loop on failed Proton VPN connection")
             self.loop.quit()
 
     def vpn_signal_handler(self, conn):
-        """Add signal handler to ProtonVPN connection.
+        """Add signal handler to Proton VPN connection.
 
         Args:
-            vpn_conn_path (string): path to ProtonVPN connection
+            vpn_conn_path (string): path to Proton VPN connection
         """
         proxy = self.bus.get_object(
             "org.freedesktop.NetworkManager", conn

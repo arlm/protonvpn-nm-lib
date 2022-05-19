@@ -197,7 +197,7 @@ class ProtonVPNReconnector:
         )
         if state == VPNConnectionStateEnum.IS_ACTIVE and not self.is_user_session_locked:
             logger.info(
-                "ProtonVPN with virtual device '{}' is running.".format(
+                "Proton VPN with virtual device '{}' is running.".format(
                     self.virtual_device_name
                 )
             )
@@ -227,7 +227,7 @@ class ProtonVPNReconnector:
             and reason == VPNConnectionReasonEnum.USER_HAS_DISCONNECTED
             and not self.is_user_session_locked
         ):
-            logger.info("ProtonVPN connection was manually disconnected.")
+            logger.info("Proton VPN connection was manually disconnected.")
             self.failed_attempts = 0
 
             try:
@@ -245,7 +245,7 @@ class ProtonVPNReconnector:
             except AttributeError:
                 pass
 
-            logger.info("ProtonVPN connection has been manually removed.")
+            logger.info("Proton VPN connection has been manually removed.")
 
             try:
                 ipv6_leak_protection.manage(
@@ -286,14 +286,14 @@ class ProtonVPNReconnector:
                 )
 
     def setup_protonvpn_conn(self, active_connection, vpn_interface):
-        """Setup and start new ProtonVPN connection.
+        """Setup and start new Proton VPN connection.
 
         Args:
             active_connection (string): path to active connection
             vpn_interface (dbus.Proxy): proxy interface to vpn connection
         """
         logger.info(
-            "Setting up ProtonVPN connecton: {} {}".format(
+            "Setting up Proton VPN connecton: {} {}".format(
                 active_connection, vpn_interface
             )
         )
@@ -304,7 +304,7 @@ class ProtonVPNReconnector:
         )
         self.vpn_signal_handler(new_con)
         logger.info(
-            "Starting manually ProtonVPN connection with '{}'.".format(
+            "Starting manually Proton VPN connection with '{}'.".format(
                 self.virtual_device_name
             )
         )
@@ -365,13 +365,13 @@ class ProtonVPNReconnector:
                 return False
 
             logger.info(
-                "New ProtonVPN connection has been started "
+                "New Proton VPN connection has been started "
                 + "from service."
             )
             return True
 
     def vpn_activator(self, glib_reconnect=False):
-        """Monitor and activate ProtonVPN connections."""
+        """Monitor and activate Proton VPN connections."""
         logger.info(
             "\n\n------- "
             "VPN Activator"
@@ -413,14 +413,14 @@ class ProtonVPNReconnector:
             active_connection
         )
 
-        # Check if primary active connection was started by ProtonVPN client
+        # Check if primary active connection was started by Proton VPN client
         if (
             is_active_conn_vpn
         ) and (
             all_vpn_settings["vpn"]["data"]["dev"]
             == self.virtual_device_name
         ):
-            logger.info("Primary connection via ProtonVPN.")
+            logger.info("Primary connection via Proton VPN.")
             self.vpn_signal_handler(active_connection)
             return False
 
@@ -437,7 +437,7 @@ class ProtonVPNReconnector:
 
             # Check if connection is being prepared
             if is_protonvpn and state == 1:
-                logger.info("ProtonVPN connection is being prepared.")
+                logger.info("Proton VPN connection is being prepared.")
                 if (
                     settings.killswitch
                     != KillswitchStatusEnum.DISABLED
@@ -460,10 +460,10 @@ class ProtonVPNReconnector:
                 return True
 
     def vpn_signal_handler(self, conn):
-        """Add signal handler to ProtonVPN connection.
+        """Add signal handler to Proton VPN connection.
 
         Args:
-            vpn_conn_path (string): path to ProtonVPN connection
+            vpn_conn_path (string): path to Proton VPN connection
         """
         proxy = self.bus.get_object(
             "org.freedesktop.NetworkManager", conn

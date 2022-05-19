@@ -146,7 +146,7 @@ SERVICE_TEMPLATE = """
 # v{}
 
 [Unit]
-Description=ProtonVPN Reconnector
+Description=Proton VPN Reconnector
 
 [Service]
 ExecStart=EXEC_START

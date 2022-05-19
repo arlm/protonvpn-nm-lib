@@ -919,7 +919,7 @@ class APISession:
 
         if not active_connection:
             logger.info(
-                "Active ProtonVPN connection could not be found. "
+                "Active Proton VPN connection could not be found. "
                 "Switiching to alternative routing."
             )
 
@@ -927,7 +927,7 @@ class APISession:
             return
 
         logger.info(
-            "Active ProtonVPN connection found. "
+            "Active Proton VPN connection found. "
             "Force skipping alternative routing."
         )
         self.__proton_api.force_skip_alternative_routing = True

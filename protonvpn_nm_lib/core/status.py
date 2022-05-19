@@ -7,7 +7,7 @@ from .environment import ExecutionEnvironment
 class Status:
     """Status Class.
     Use it to get status information about the current
-    ProtonVPN connection.
+    Proton VPN connection.
     """
     def __init__(self):
         self.user_settings = ExecutionEnvironment().settings

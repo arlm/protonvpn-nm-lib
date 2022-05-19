@@ -62,7 +62,7 @@ class ConfigureOpenVPNConnection:
         )
 
     def set_custom_connection_id(self):
-        self._conn_settings.props.id = "ProtonVPN " + self.servername
+        self._conn_settings.props.id = "Proton VPN " + self.servername
 
     def append_suffixes(self):
         # append platform suffix
@@ -96,7 +96,7 @@ class ConfigureOpenVPNConnection:
                 self.username = self.username + "+sm"
 
     def add_vpn_credentials(self):
-        """Add OpenVPN credentials to ProtonVPN connection.
+        """Add OpenVPN credentials to Proton VPN connection.
 
         Args:
             openvpn_username (string): openvpn/ikev2 username
@@ -187,7 +187,7 @@ class ConfigureOpenVPNConnection:
                 return virtual_dev_type_list[index]
 
     def dns_configurator(self):
-        """Apply dns configurations to ProtonVPN connection.
+        """Apply dns configurations to Proton VPN connection.
 
         Args:
             dns_setting (tuple(int, [])): contains dns configurations

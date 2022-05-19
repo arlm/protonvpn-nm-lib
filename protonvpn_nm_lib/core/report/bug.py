@@ -32,7 +32,7 @@ class BugReport(metaclass=Singleton):
         self.__generate_log("NetworkManager.service", NETWORK_MANAGER_LOGFILE)
 
     def generate_protonvpn_reconnector_log(self):
-        """Generate ProtonVPN Reconnect log file for bug report.
+        """Generate Proton VPN Reconnect log file for bug report.
 
         The log file is created with the help of python-systemd
         package which can easily read journalctl content.

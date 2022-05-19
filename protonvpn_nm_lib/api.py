@@ -45,7 +45,7 @@ class ProtonVPNClientAPI:
             pass
 
     def connect(self):
-        """Connect to ProtonVPN.
+        """Connect to Proton VPN.
 
         Should be user either after setup_connection() or
         setup_reconnect().
@@ -55,7 +55,7 @@ class ProtonVPNClientAPI:
         return connect_result
 
     def disconnect(self):
-        """Disconnect from ProtonVPN"""
+        """Disconnect from Proton VPN"""
         self._env.connection_backend.disconnect()
         if self._env.settings.killswitch != KillswitchStatusEnum.HARD:
             self.__set_netzone_address()
@@ -376,7 +376,7 @@ class ProtonVPNClientAPI:
         return self._country
 
     def get_connection_metadata(self):
-        """Get metadata of an active ProtonVPN connection.
+        """Get metadata of an active Proton VPN connection.
 
         Returns:
             dict
@@ -386,7 +386,7 @@ class ProtonVPNClientAPI:
         )
 
     def get_non_active_protonvpn_connection(self):
-        """Get non active ProtonVPN connection object.
+        """Get non active Proton VPN connection object.
 
         Args:
             nm_connection_type (NetworkManagerConnectionTypeEnum)
@@ -397,7 +397,7 @@ class ProtonVPNClientAPI:
             .get_non_active_protonvpn_connection()
 
     def get_active_protonvpn_connection(self):
-        """Get active ProtonVPN connection object.
+        """Get active Proton VPN connection object.
 
         Args:
             nm_connection_type (NetworkManagerConnectionTypeEnum)

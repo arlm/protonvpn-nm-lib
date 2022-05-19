@@ -25,7 +25,7 @@ class NMClientMixin:
         self.main_loop.run()
 
     def _start_connection_async(self, connection):
-        """Start ProtonVPN connection."""
+        """Start Proton VPN connection."""
         logger.info("Starting VPN connection")
 
         self.nm_client.activate_connection_async(
@@ -60,7 +60,7 @@ class NMClientMixin:
         self.main_loop.run()
 
     def _stop_connection_async(self, connection):
-        """Stop ProtonVPN connection.
+        """Stop Proton VPN connection.
 
         Args(optional):
             client (NM.nm_client): new NetworkManager Client object

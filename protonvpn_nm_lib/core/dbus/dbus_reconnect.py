@@ -138,7 +138,7 @@ class DbusReconnect:
         else:
             # Service threw an exception
             raise Exception(
-                "[!] An error occurred while checking for ProtonVPN "
+                "[!] An error occurred while checking for Proton VPN "
                 + "reconnector service: "
                 + "(Return code: {}; Exception: {} {})".format(
                     check_daemon.returncode, decoded_stdout,
@@ -176,7 +176,7 @@ class DbusReconnect:
         decoded_stderr = call_daemon.stderr.decode().strip("\n")
 
         if not call_daemon.returncode == 0:
-            msg = "[!] An error occurred while {}ing ProtonVPN "\
+            msg = "[!] An error occurred while {}ing Proton VPN "\
                 "reconnector service: {} {}".format(
                     command,
                     decoded_stdout,

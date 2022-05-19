@@ -125,7 +125,7 @@ class KillSwitch:
         """Assure pre-connection Kill Switch is setup correctly.
 
         Args:
-            server_ip (list | string): ProtonVPN server IP
+            server_ip (list | string): Proton VPN server IP
             pre_attempts (int): number of setup attempts
         """
         self.update_connection_status()
