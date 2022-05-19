@@ -1,13 +1,13 @@
-# ProtonVPN NM Library
+# Proton VPN NM Library
 
 Copyright (c) 2021 Proton Technologies AG
 
-This repository holds the ProtonVPN NM Library.
+This repository holds the Proton VPN NM Library.
 For licensing information see [COPYING](COPYING.md).
 For contribution policy see [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Description
-The [ProtonVPN](https://protonvpn.com) NM (NetworkManager) Library is intended for every ProtonVPN service user.
+The [Proton VPN](https://protonvpn.com) NM (NetworkManager) Library is intended for every Proton VPN service user.
 
 You can download the latest stable release, either from our official repositories or directly on the [official GitHub repository](https://github.com/ProtonVPN/protonvpn-nm-lib/releases/latest).
 
@@ -76,13 +76,13 @@ If you would like to run the the CLI from within a virtual environment (for eith
 | `protonvpn.setup_connection(connection_type, connection_type_extra_arg, protocol)` | Setup and configure VPN connection prior to calling protonvpn.connect(). |
 | `protonvpn.setup_reconnect()` | Setup and configure VPN connection to a previously connected server. Should be called before calling protonvpn.connect(). |
 | `protonvpn.connect()` | Should be used either after protonvpn.setup_connection() protonvpn.setup_reconnect(). |
-| `protonvpn.disconnect()` | Disconnect from ProtonVPN. |
+| `protonvpn.disconnect()` | Disconnect from Proton VPN. |
 | `protonvpn.check_session_exists()` | Check if sessions exists. |
 | `protonvpn.get_connection_status()` | Get active connection status. |
 | `protonvpn.get_settings()` | Get user settings. This object can be used to get and set user settings. |
 | `protonvpn.get_session()` | Get user session. This object can be used to get servers list, get keyring data and other. |
 | `protonvpn.get_country()` | Get country. |
-| `protonvpn.get_connection_metadata()` | Get metadata of an active ProtonVPN connection. |
-| `protonvpn.get_non_active_protonvpn_connection()` | Get non active ProtonVPN connection. |
-| `protonvpn.get_active_protonvpn_connection()` | Get active ProtonVPN connection. |
+| `protonvpn.get_connection_metadata()` | Get metadata of an active Proton VPN connection. |
+| `protonvpn.get_non_active_protonvpn_connection()` | Get non active Proton VPN connection. |
+| `protonvpn.get_active_protonvpn_connection()` | Get active Proton VPN connection. |
 | `protonvpn.ensure_connectivity()` | Ensure that there is an internet connection. |

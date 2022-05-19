@@ -7,7 +7,7 @@ Prefix: %{_prefix}
 Name: python3-protonvpn-nm-lib
 Version: %{version}
 Release: %{release}%{?dist}
-Summary: Official ProtonVPN NetworkManager library
+Summary: Official Proton VPN NetworkManager library
 
 Group: ProtonVPN
 License: GPLv3
@@ -41,7 +41,7 @@ Conflicts: protonvpn-cli < 3.11.0, protonvpn-cli < 1.9.0
 %{?python_disable_dependency_generator}
 
 %description
-Package installs official ProtonVPN NetworkManager library.
+Package installs official Proton VPN NetworkManager library.
 
 
 %prep
@@ -61,7 +61,7 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 
 %changelog
 * Fri Apr 22 2021 Proton Technologies AG <opensource@proton.me> 3.10.0-1
-- * Fix: Adapt to new rebranded client
+- Introducing Proton's refreshed look. As we continue to make privacy accessible to everyone, we've updated our apps to provide you with an even better experience with our services. Proton - Privacy by default
 
 * Wed Apr 20 2021 Proton Technologies AG <opensource@proton.me> 3.9.0-2
 - Fix: Crash when attempting to fetch netzone

@@ -232,7 +232,7 @@ class NetworkManagerUnitWrapper:
         return active_conn_all_settings
 
     def is_protonvpn_being_prepared(self):
-        """Checks ProtonVPN connection status.
+        """Checks Proton VPN connection status.
 
         Returns:
             [0]: bool
@@ -268,14 +268,14 @@ class NetworkManagerUnitWrapper:
                 protonvpn_conn_info[1] = active_conn_props["State"]
                 protonvpn_conn_info[2] = active_conn
 
-        logger.info("ProtonVPN conn info: {}".format(protonvpn_conn_info))
+        logger.info("Proton VPN conn info: {}".format(protonvpn_conn_info))
         return tuple(protonvpn_conn_info)
 
     def get_vpn_interface(self):
         """Get VPN connection interface based on virtual device name.
 
         Returns:
-            dbus.proxies.Interface: to ProtonVPN connection
+            dbus.proxies.Interface: to Proton VPN connection
         """
         logger.info(
             "Get connection interface from '{}' virtual device.".format(

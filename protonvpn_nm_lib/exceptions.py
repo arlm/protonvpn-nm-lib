@@ -299,7 +299,7 @@ class ProtocolPluginNotFound(ProtonVPNException):
 
 
 class ConnectionNotFound(ProtonVPNException):
-    """ProtonVPN connection not found."""
+    """Proton VPN connection not found."""
 
 
 class UnexpectedServername(ProtonVPNException):
