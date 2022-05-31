@@ -285,7 +285,7 @@ class APISession:
         # Update the stored version with the new one and the user agent upon loading
         # from keyring
         keyring_data["appversion"] = "LinuxVPN_" + APP_VERSION
-        keyring_data["user_agent"] = ExecutionEnvironment().user_agent
+        keyring_data["User-Agent"] = ExecutionEnvironment().user_agent
 
         # This is a "dangerous" call, as we assume that everything
         # in keyring_data is correctly formatted
