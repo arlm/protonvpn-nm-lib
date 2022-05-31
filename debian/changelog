@@ -1,3 +1,9 @@
+protonvpn-nm-lib (3.11.0-1) unstable; urgency=medium
+
+  * Fix: When loading a session from keyring, update the app version and user agent with the current ones
+
+ -- Proton Technologies AG <opensource@proton.me>  Tue, 31 May 2022 13:00:00 +0000
+ 
 protonvpn-nm-lib (3.10.0-1) unstable; urgency=medium
 
   * Introducing Proton's refreshed look. As we continue to make privacy accessible to everyone, we've updated our apps to provide you with an even better experience with our services. Proton - Privacy by default
