@@ -1,5 +1,5 @@
 %define unmangled_name protonvpn-nm-lib
-%define version 3.10.0
+%define version 3.11.0
 %define release 1
 
 Prefix: %{_prefix}
@@ -60,10 +60,13 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Fri Apr 22 2021 Proton Technologies AG <opensource@proton.me> 3.10.0-1
+* Tue May 31 2022 Proton Technologies AG <opensource@proton.me> 3.11.0-1
+- Fix: When loading a session from keyring, update the app version and user agent with the current ones
+
+* Fri Apr 22 2022 Proton Technologies AG <opensource@proton.me> 3.10.0-1
 - Introducing Proton's refreshed look. As we continue to make privacy accessible to everyone, we've updated our apps to provide you with an even better experience with our services. Proton - Privacy by default
 
-* Wed Apr 20 2021 Proton Technologies AG <opensource@proton.me> 3.9.0-2
+* Wed Apr 20 2022 Proton Technologies AG <opensource@proton.me> 3.9.0-2
 - Fix: Crash when attempting to fetch netzone
 - Fix: "1000:Permission Denied" error when killswitch is enabled
 
