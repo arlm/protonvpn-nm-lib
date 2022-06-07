@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
 %define version 3.11.0
-%define release 1
+%define release 2
 
 Prefix: %{_prefix}
 
@@ -60,7 +60,7 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
-* Tue May 31 2022 Proton Technologies AG <opensource@proton.me> 3.11.0-1
+* Tue May 31 2022 Proton Technologies AG <opensource@proton.me> 3.11.0-2
 - Fix: When loading a session from keyring, update the app version and user agent with the current ones
 
 * Fri Apr 22 2022 Proton Technologies AG <opensource@proton.me> 3.10.0-1
