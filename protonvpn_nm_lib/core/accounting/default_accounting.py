@@ -66,4 +66,4 @@ class DefaultAccounting(Accounting):
         except: # noqa
             current_sessions = self._env.api_session.max_connections
 
-        return current_sessions >= self._env.api_session.max_connections
+        return current_sessions > self._env.api_session.max_connections
