@@ -92,7 +92,7 @@ class MockMaxAmmountOfSessionsReachedSession(MockSessionBase):
         super().__init__()
 
     def get_sessions(self):
-        return ["MockSession1", "MockSession2"]
+        return ["MockSession1", "MockSession2", "MockSession3"]
 
 
 class TestDefaultAccounting:
