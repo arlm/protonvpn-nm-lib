@@ -110,6 +110,14 @@ class ProtonSessionWrapperError(ProtonVPNException): # noqa
     """Proton session wrapper error."""
 
 
+class API400Error(ProtonSessionWrapperError):
+    """Error 400.
+
+    Upon refreshing tokens, wwhen a request is badly formatted this exception
+    is raised. Usually requires a user to re-login.
+    """
+
+
 class API401Error(ProtonSessionWrapperError):
     """Error 401.
 
@@ -121,6 +129,14 @@ class API403Error(ProtonSessionWrapperError):
     """Error 403.
 
     Missing scopes. Client needs to re-authenticate.
+    """
+
+
+class API422Error(ProtonSessionWrapperError):
+    """Error 422.
+
+    Upon refreshing tokens, this exception is raised
+    session has experied and re-login is required.
     """
 
 

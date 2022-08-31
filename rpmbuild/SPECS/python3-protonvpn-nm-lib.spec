@@ -1,5 +1,5 @@
 %define unmangled_name protonvpn-nm-lib
-%define version 3.12.0
+%define version 3.13.0
 %define release 1
 
 Prefix: %{_prefix}
@@ -60,6 +60,9 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
+* Fri Aug 31 2022 Proton Technologies AG <opensource@proton.me> 3.13.0-1
+- Fix: Properly handle session refresh
+
 * Fri Jul 29 2022 Proton Technologies AG <opensource@proton.me> 3.12.0-1
 - Fix: Display propper error message when unable to establish VPN tunnel
 
