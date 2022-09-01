@@ -91,14 +91,13 @@ class ErrorStrategy:
 
     # Common handlers retries
     def _handle_429(self, error, session, *args, **kwargs):
-        logger.info("Catched 429 error, will retry")
+        logger.info("Catched 429 error, retrying new request if retry header present")
 
-        hold_request_time = error.headers["Retry-After"]
+        hold_request_time = error.headers.get("Retry-After")
         try:
             hold_request_time = int(hold_request_time)
         except ValueError:
-            # Wait at least two seconds, and up to 20
-            hold_request_time = 2 + random.random() * 18
+            raise UnreacheableAPIError(error)
 
         logger.info("Retrying after {} seconds".format(hold_request_time))
         time.sleep(hold_request_time)
@@ -106,12 +105,24 @@ class ErrorStrategy:
         # Retry
         return self._call_original_function(session, *args, **kwargs)
 
-    def _handle_503(self, error, session, *args, **kwargs):
-        logger.info("Catched 503 error, retrying new request")
+    def _handle_500(self, error, session, *args, **kwargs):
+        logger.info("Catched 500 error, raising exception")
 
-        # Wait between 2 and 10 seconds
-        hold_request_time = 2 + random.random() * 8
+        raise UnreacheableAPIError(error)
+
+    def _handle_503(self, error, session, *args, **kwargs):
+        logger.info("Catched 503 error, retrying new request if retry header present")
+
+        hold_request_time = error.headers.get("Retry-After")
+        try:
+            hold_request_time = int(hold_request_time)
+        except ValueError:
+            raise UnreacheableAPIError(error)
+
+        logger.info("Retrying after {} seconds".format(hold_request_time))
         time.sleep(hold_request_time)
+
+        # Retry
         return self._call_original_function(session, *args, **kwargs)
 
     def _handle_2011(self, error, session, *args, **kwargs):
@@ -171,7 +182,12 @@ class ErrorStrategyAuthenticate(ErrorStrategy):
 
 
 class ErrorStrategyRefresh(ErrorStrategy):
-    pass
+    def _handle_409(self, error, session, *args, **kwargs):
+        # Possible race condition, retry (without error handling this time)
+        return self._call_without_error_handling(session, *args, **kwargs)
+
+    def _handle_10013(self, error, session, *args, **kwargs):
+        raise APISessionIsNotValidError(error)
 
 
 class APISession:
@@ -633,6 +649,8 @@ class APISession:
 
         try:
             self.update_servers_if_needed()
+        except APISessionIsNotValidError:
+            raise
         except: # noqa
             pass
 
@@ -798,6 +816,8 @@ class APISession:
 
         try:
             self._update_notifications_if_needed()
+        except APISessionIsNotValidError:
+            raise
         except: # noqa
             pass
 
