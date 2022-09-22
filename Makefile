@@ -14,12 +14,11 @@ endif
 
 IMAGE_URL_DEB = ubuntu:latest
 IMAGE_URL_FED36 = fedora:36
-IMAGE_URL_FED34 = fedora:34
-IMAGE_URL_FED35 = fedora:35
+IMAGE_URL_FED37 = fedora:37
 IMAGE_URL_ARCH = archlinux:latest
 
 # Run make base to build both images based on ubuntu and fedora
-base: image-deb image-fed36 image-fed34 image-fed35 image-arch
+base: image-deb image-fed36 image-fed37 image-arch
 
 # Create the image based on ubuntu
 image-deb: image
@@ -32,25 +31,15 @@ image-arch: DOCKER_FILE_SOURCE = Dockerfile.arch
 image-arch: src = archlinux
 
 
-# Create the image based on fedora 31
-image-fed31: image
-image-fed31: DOCKER_FILE_SOURCE = Dockerfile.fed31
-image-fed31: src = fedora31
-
 # Create the image based on fedora 36
 image-fed36: image
 image-fed36: DOCKER_FILE_SOURCE = Dockerfile.fed36
 image-fed36: src = fedora36
 
-# Create the image based on fedora 34
-image-fed34: image
-image-fed34: DOCKER_FILE_SOURCE = Dockerfile.fed34
-image-fed34: src = fedora34
-
-# Create the image based on fedora 35
-image-fed35: image
-image-fed35: DOCKER_FILE_SOURCE = Dockerfile.fed35
-image-fed35: src = fedora35
+# Create the image based on fedora 37
+image-fed37: image
+image-fed37: DOCKER_FILE_SOURCE = Dockerfile.fed37
+image-fed37: src = fedora37
 
 
 ## Make remote image form a branch make image branch=<branchName> (master default)
@@ -61,7 +50,7 @@ image: requirements.txt docker-source
 
 ## We host our own copy of the image ubuntu:latest
 docker-source:
-	sed "s|IMAGE_URL_FED36|$(IMAGE_URL_FED36)|; s|IMAGE_URL_FED34|$(IMAGE_URL_FED34)|; s|IMAGE_URL_FED35|$(IMAGE_URL_FED35)|; s|IMAGE_URL_DEB|$(IMAGE_URL_DEB)|; s|IMAGE_URL_ARCH|$(IMAGE_URL_ARCH)|" $(DOCKER_FILE_SOURCE) > /tmp/Dockerfile.image
+	sed "s|IMAGE_URL_FED36|$(IMAGE_URL_FED36)|; s|IMAGE_URL_FED37|$(IMAGE_URL_FED37)|; s|IMAGE_URL_DEB|$(IMAGE_URL_DEB)|; s|IMAGE_URL_ARCH|$(IMAGE_URL_ARCH)|" $(DOCKER_FILE_SOURCE) > /tmp/Dockerfile.image
 
 requirements.txt:
 	@ touch requirements.txt
@@ -78,7 +67,7 @@ local: docker-source
 	@ rm -rf __SOURCE_APP || true
 local: NAME_IMAGE = protonvpn-nm-lib:latest
 
-local-base: local-deb local-fed36 local-fed34 local-fed35 local-arch
+local-base: local-deb local-fed36 local-fed37 local-arch
 
 local-deb: local
 local-deb: DOCKER_FILE_SOURCE = Dockerfile.deb
@@ -86,11 +75,8 @@ local-deb: DOCKER_FILE_SOURCE = Dockerfile.deb
 local-fed36: local
 local-fed36: DOCKER_FILE_SOURCE = Dockerfile.fed36
 
-local-fed34: local
-local-fed34: DOCKER_FILE_SOURCE = Dockerfile.fed34
-
-local-fed35: local
-local-fed35: DOCKER_FILE_SOURCE = Dockerfile.fed35
+local-fed37: local
+local-fed37: DOCKER_FILE_SOURCE = Dockerfile.fed37
 
 local-arch: local
 local-arch: DOCKER_FILE_SOURCE = Dockerfile.arch
@@ -125,18 +111,8 @@ test-fed36: local-fed36
 			--volume $(PWD)/.env:/home/user/proton-python-client.env \
 			proton-python-client:latest \
 			python3 -m pytest
-			
-test-fed34: local-fed34
-	# Keep -it because with colors it's better
-	@ docker run \
-			--rm \
-			-it \
-			--privileged \
-			--volume $(PWD)/.env:/home/user/proton-python-client.env \
-			proton-python-client:latest \
-			python3 -m pytest
 
-test-fed35: local-fed35
+test-fed37: local-fed37
 	# Keep -it because with colors it's better
 	@ docker run \
 			--rm \
