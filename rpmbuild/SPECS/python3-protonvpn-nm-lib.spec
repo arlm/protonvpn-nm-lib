@@ -1,6 +1,6 @@
 %define unmangled_name protonvpn-nm-lib
-%define version 3.13.0
-%define release 2
+%define version 3.14.0
+%define release 1
 
 Prefix: %{_prefix}
 
@@ -60,6 +60,9 @@ python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUI
 %defattr(-,root,root)
 
 %changelog
+* Tue Oct 18 2022 Proton Technologies AG <opensource@proton.me> 3.14.0-1
+- Fix: When vpn session is invalid, ensure that user is logged out
+
 * Thu Sep 22 2022 Proton Technologies AG <opensource@proton.me> 3.13.0-2
 - Drop F34-35 and add F37
 

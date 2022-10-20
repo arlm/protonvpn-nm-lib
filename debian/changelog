@@ -1,3 +1,9 @@
+protonvpn-nm-lib (3.14.0-1) unstable; urgency=medium
+
+  * Fix: When vpn session is invalid and an api request is made, ensure that user is logged out
+
+ -- Proton Technologies AG <opensource@proton.me>  Tue, 18 Oct 2022 16:00:00 +0000
+
 protonvpn-nm-lib (3.13.0-1) unstable; urgency=medium
 
   * Fix: Properly handle session refresh

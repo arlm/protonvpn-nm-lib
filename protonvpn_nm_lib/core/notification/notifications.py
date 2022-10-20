@@ -44,11 +44,12 @@ class NotificationData:
         )
 
     def get_all_notifications(self):
-        try:
-            _data = self.__data.get("Notifications", None)[0]
-        except (IndexError, AttributeError) as e:
-            logger.exception(e)
+        notifications = self.__data.get("Notifications", None)
+        if len(notifications) < 1:
+            logger.info("Nofitications are empty: {}".format(notifications))
             _data = {}
+        else:
+            _data = notifications[0]
 
         return BaseNotificationType.factory(_data)
 
