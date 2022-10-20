@@ -156,16 +156,28 @@ class ErrorStrategyNormalCall(ErrorStrategy):
         return self._call_without_error_handling(session, *args, **kwargs)
 
     def _handle_403(self, error, session, *args, **kwargs):
+        logger.info("Catched 403 error, missing scopes. Re-authentication needed.")
         raise API403Error(error)
 
     def _handle_5002(self, error, session, *args, **kwargs):
+        logger.info("Catched 5002 error, invalid version.")
         raise API5002Error(error)
 
     def _handle_5003(self, error, session, *args, **kwargs):
+        logger.info("Catched 5003 error, bad version.")
         raise API5003Error(error)
 
     def _handle_10013(self, error, session, *args, **kwargs):
+        logger.info("Catched 10013 error, session invalid.")
         raise API10013Error(error)
+
+    def _handle_400(self, error, session, *args, **kwargs):
+        logger.info("Catched 400 error, session invalid.")
+        raise APISessionIsNotValidError(error)
+
+    def _handle_422(self, error, session, *args, **kwargs):
+        logger.info("Catched 422 error, session invalid.")
+        raise APISessionIsNotValidError(error)
 
 
 class ErrorStrategyAuthenticate(ErrorStrategy):
@@ -174,19 +186,32 @@ class ErrorStrategyAuthenticate(ErrorStrategy):
         pass
 
     def _handle_403(self, error, session, *args, **kwargs):
-        logger.info("Ignored a 401 at authenticate")
+        logger.info("Ignored a 403 at authenticate")
         pass
 
     def _handle_8002(self, error, session, *args, **kwargs):
+        logger.info("Catched 8002, incorrect credentials.")
         raise API8002Error(error)
 
 
 class ErrorStrategyRefresh(ErrorStrategy):
     def _handle_409(self, error, session, *args, **kwargs):
-        # Possible race condition, retry (without error handling this time)
+        logger.info(
+            "Catched 409 error, possible race condition,"
+            "retry with error handling."
+        )
         return self._call_without_error_handling(session, *args, **kwargs)
 
     def _handle_10013(self, error, session, *args, **kwargs):
+        logger.info("Catched 10013 error, session invalid.")
+        raise APISessionIsNotValidError(error)
+
+    def _handle_400(self, error, session, *args, **kwargs):
+        logger.info("Catched 400 error, session invalid.")
+        raise APISessionIsNotValidError(error)
+
+    def _handle_422(self, error, session, *args, **kwargs):
+        logger.info("Catched 422 error, session invalid.")
         raise APISessionIsNotValidError(error)
 
 
@@ -209,13 +234,12 @@ class APISession:
 
     """
 
-    # Probably would be better to have that somewhere else
-    FULL_CACHE_TIME_EXPIRE = 3 * (60 * 60)  # 3h in seconds
-    STREAMING_SERVICES_TIME_EXPIRE = FULL_CACHE_TIME_EXPIRE
-    CLIENT_CONFIG_TIME_EXPIRE = FULL_CACHE_TIME_EXPIRE
-    STREAMING_ICON_TIME_EXPIRE = 8 * (60 * 60)  # 8h in seconds
-    NOTIFICATIONS_TIME_EXPIRE = 12 * (60 * 60)   # 12h in seconds
-    LOADS_CACHE_TIME_EXPIRE = 15 * 60  # 15min in seconds
+    FULL_CACHE_TIME_EXPIRE = 10800  # 3h in seconds
+    STREAMING_SERVICES_TIME_EXPIRE = 10800
+    CLIENT_CONFIG_TIME_EXPIRE = 10800
+    STREAMING_ICON_TIME_EXPIRE = 28800  # 8h in seconds
+    NOTIFICATIONS_TIME_EXPIRE = 43200   # 12h in seconds
+    LOADS_CACHE_TIME_EXPIRE = 900  # 15min in seconds
     RANDOM_FRACTION = 0.22  # Generate a value of the timeout, +/- up to 22%, at random
     TIMEOUT = (3.05, 3.05)
 
