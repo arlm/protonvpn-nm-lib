@@ -12,6 +12,9 @@ include:
  - project: 'ProtonVPN/Linux/_gitlab-ci'
    ref: public-protonvpn-repo
    file: 'gitlab-ci-build-publish-arch.yml'
+   - project: 'ProtonVPN/Linux/_gitlab-ci'
+   ref: public-protonvpn-repo
+   file: 'gitlab-ci-build-publish-alpine.yml'   
  - project: 'agarroux/publish-github'
    ref: master
    file: '/jobs/release.gitlab-ci.yml'
@@ -77,6 +80,12 @@ make-image-fed37:
  script:
    - make image-fed37 branch=$CI_COMMIT_REF_SLUG src=fedora37
 
+make-image-alpine:
+ stage: image
+ extends: make-image-alpine
+ script:
+   - make image-alpine branch=$CI_COMMIT_REF_SLUG src=alpine   
+
 ######### CI Test Jobs ##########
 test-deb:
  stage: test
@@ -106,6 +115,11 @@ test-fed37:
    - job: make-image-fed37
  image: $CI_REGISTRY_IMAGE/fedora37:branch-$CI_COMMIT_REF_SLUG
 
+test-alpine:
+ extends: test-alpine
+ needs:
+   - job: make-image-alpine
+ image: $CI_REGISTRY_IMAGE/alpine:branch-$CI_COMMIT_REF_SLUG
 
 ## Jobs to publish commits + tags from master to github
 release-publish-github:
@@ -114,6 +128,7 @@ release-publish-github:
    - job: build-deb
    - job: build-fed36
    - job: build-fed37
+   - job: build-alpine
   when: manual
   variables:
     RELEASE_SYNC_PUBLIC_URL: git@github.com:ProtonVPN/protonvpn-nm-lib.git
@@ -127,6 +142,7 @@ release-publish-github-tags:
    - job: build-deb
    - job: build-fed36
    - job: build-fed37
+   - job: build-alpine
   when: manual
   variables:
     RELEASE_SYNC_PUBLIC_URL: git@github.com:ProtonVPN/protonvpn-nm-lib.git

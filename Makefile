@@ -16,9 +16,10 @@ IMAGE_URL_DEB = ubuntu:latest
 IMAGE_URL_FED36 = fedora:36
 IMAGE_URL_FED37 = fedora:37
 IMAGE_URL_ARCH = archlinux:latest
+IMAGE_URL_ALPINE = alpine:latest
 
 # Run make base to build both images based on ubuntu and fedora
-base: image-deb image-fed36 image-fed37 image-arch
+base: image-deb image-fed36 image-fed37 image-arch image-alpine
 
 # Create the image based on ubuntu
 image-deb: image
@@ -30,7 +31,6 @@ image-arch: image
 image-arch: DOCKER_FILE_SOURCE = Dockerfile.arch
 image-arch: src = archlinux
 
-
 # Create the image based on fedora 36
 image-fed36: image
 image-fed36: DOCKER_FILE_SOURCE = Dockerfile.fed36
@@ -41,6 +41,10 @@ image-fed37: image
 image-fed37: DOCKER_FILE_SOURCE = Dockerfile.fed37
 image-fed37: src = fedora37
 
+# Create the image based on alpine
+image-alpine: image
+image-alpine: DOCKER_FILE_SOURCE = Dockerfile.alpine
+image-alpine: src = alpine
 
 ## Make remote image form a branch make image branch=<branchName> (master default)
 image: requirements.txt docker-source
@@ -50,7 +54,7 @@ image: requirements.txt docker-source
 
 ## We host our own copy of the image ubuntu:latest
 docker-source:
-	sed "s|IMAGE_URL_FED36|$(IMAGE_URL_FED36)|; s|IMAGE_URL_FED37|$(IMAGE_URL_FED37)|; s|IMAGE_URL_DEB|$(IMAGE_URL_DEB)|; s|IMAGE_URL_ARCH|$(IMAGE_URL_ARCH)|" $(DOCKER_FILE_SOURCE) > /tmp/Dockerfile.image
+	sed "s|IMAGE_URL_FED36|$(IMAGE_URL_FED36)|; s|IMAGE_URL_FED37|$(IMAGE_URL_FED37)|; s|IMAGE_URL_DEB|$(IMAGE_URL_DEB)|; s|IMAGE_URL_ARCH|$(IMAGE_URL_ARCH)|; s|IMAGE_URL_ALPINE|$(IMAGE_URL_ALPINE)|" $(DOCKER_FILE_SOURCE) > /tmp/Dockerfile.image
 
 requirements.txt:
 	@ touch requirements.txt
@@ -67,7 +71,7 @@ local: docker-source
 	@ rm -rf __SOURCE_APP || true
 local: NAME_IMAGE = protonvpn-nm-lib:latest
 
-local-base: local-deb local-fed36 local-fed37 local-arch
+local-base: local-deb local-fed36 local-fed37 local-arch local-alpine
 
 local-deb: local
 local-deb: DOCKER_FILE_SOURCE = Dockerfile.deb
@@ -80,6 +84,9 @@ local-fed37: DOCKER_FILE_SOURCE = Dockerfile.fed37
 
 local-arch: local
 local-arch: DOCKER_FILE_SOURCE = Dockerfile.arch
+
+local-alpine: local
+local-alpine: DOCKER_FILE_SOURCE = Dockerfile.alpine
 
 # Build an image from your computer and push it to our repository
 deploy-local: login-deploy build tag push
@@ -122,8 +129,18 @@ test-fed37: local-fed37
 			proton-python-client:latest \
 			python3 -m pytest
 
-## Run tests against the latest version of the arch from your code
 test-arch: local-arch
+	# Keep -it because with colors it's better
+	@ docker run \
+			--rm \
+			-it \
+			--privileged \
+			--volume $(PWD)/home/user/protonvpn-nm-lib/ \
+			protonvpn-nm-lib:latest \
+			python3 -m pytest
+
+## Run tests against the latest version of the arch from your code
+test-alpine: local-alpine
 	# Keep -it because with colors it's better
 	@ docker run \
 			--rm \
