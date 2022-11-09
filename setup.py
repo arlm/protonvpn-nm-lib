@@ -4,9 +4,20 @@ from setuptools import find_packages, setup
 
 from protonvpn_nm_lib.constants import APP_VERSION
 
+import distro
+import sys
+
 long_description = """
 Proton VPN NetworkManager library for Linux clients.
 """
+# set initial dependencies
+dependencies = [
+        "proton-client", "pyxdg", "keyring",
+        "PyGObject", "Jinja2", "distro"
+    ]
+
+if (sys.platform == 'linux') and (distro.id() != 'alpine'):
+    dependencies.append("systemd-python")
 
 setup(
     name="protonvpn-nm-lib",
@@ -16,10 +27,7 @@ setup(
     author="Proton Technologies AG",
     author_email="contact@protonvpn.com",
     long_description=long_description,
-    install_requires=[
-        "proton-client", "pyxdg", "keyring",
-        "PyGObject", "Jinja2", "distro", "systemd-python"
-    ],
+    install_requires=dependencies,
     include_package_data=True,
     license="GPLv3",
     classifiers=[

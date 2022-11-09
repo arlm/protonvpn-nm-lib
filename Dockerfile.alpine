@@ -22,6 +22,7 @@ RUN apk --update add \
     vim \
     nano \
     dbus \
+    dbus-openrc \    
     libnm \
     gnome-keyring \
     libsecret \
